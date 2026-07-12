@@ -16,7 +16,7 @@ public final class AutoEnchantManager {
     private static int cooldownTicks = 0;
     private static boolean keyHeldThisClick = false;
 
-    private AutoClickManager() {
+    private AutoEnchantManager() {
     }
 
     public static void tick(MinecraftClient client) {
