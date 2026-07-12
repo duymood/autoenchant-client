@@ -6,7 +6,7 @@ import net.minecraft.client.MinecraftClient;
  * Tự động "bấm chuột phải" (giả lập phím Use Item) theo chu kỳ,
  * độc lập với chức năng Auto Enchant.
  */
-public final class AutoClickManager {
+public final class AutoEnchantManager {
 
     public static volatile boolean enabled = false;
 
