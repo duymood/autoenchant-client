@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "autoenchant-client",
+  "version": "${version}",
+  "name": "Auto Enchant Client",
+  "description": "Client-side: tự động dùng lệnh /enchant và chọn slot 13 khi đạt cấp độ kinh nghiệm yêu cầu. Chỉ nên dùng trên server cho phép macro/tool hỗ trợ.",
+  "authors": ["Bạn"],
+  "contact": {},
+  "license": "CC0-1.0",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.autoenchant.AutoEnchantClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.0",
+    "minecraft": "1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
