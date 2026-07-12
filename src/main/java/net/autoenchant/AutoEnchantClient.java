@@ -3,18 +3,21 @@ package net.autoenchant;
 import net.autoenchant.gui.AutoEnchantScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
-/**
- * Entry point phía client.
- * - Mỗi tick kiểm tra tổ hợp phím Shift + Chuột phải để mở giao diện Auto Enchant.
- * - Gọi AutoEnchantManager.tick() để xử lý logic tự động dùng /enchant.
- */
 public class AutoEnchantClient implements ClientModInitializer {
 
-    private boolean prevRightMouseDown = false;
+    // Phím mở/đóng giao diện Auto Enchant - đổi được trong Options > Controls > Key Binds > Auto Enchant Client
+    public static final KeyBinding TOGGLE_GUI_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.autoenchant.toggle_gui",
+            InputUtil.Type.KEYSYM,
+            GLFW.GLFW_KEY_APOSTROPHE, // Phím mặc định: dấu nháy đơn ' — có thể đổi trong Controls
+            "key.categories.autoenchant"
+    ));
 
     @Override
     public void onInitializeClient() {
@@ -26,21 +29,15 @@ public class AutoEnchantClient implements ClientModInitializer {
             return;
         }
 
-        net.minecraft.client.util.Window window = client.getWindow();
-        long windowHandle = window.getHandle();
-
-        boolean shiftDown = InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_SHIFT)
-                || InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_RIGHT_SHIFT);
-        boolean rightMouseDown = GLFW.glfwGetMouseButton(windowHandle, GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS;
-
-        boolean justPressed = rightMouseDown && !this.prevRightMouseDown;
-        this.prevRightMouseDown = rightMouseDown;
-
-        if (shiftDown && justPressed && client.currentScreen == null) {
-            client.setScreen(new AutoEnchantScreen());
-            return;
+        while (TOGGLE_GUI_KEY.wasPressed()) {
+            if (client.currentScreen == null) {
+                client.setScreen(new AutoEnchantScreen());
+            } else if (client.currentScreen instanceof AutoEnchantScreen) {
+                client.setScreen(null);
+            }
         }
 
         AutoEnchantManager.tick(client);
+        AutoClickManager.tick(client);
     }
 }
