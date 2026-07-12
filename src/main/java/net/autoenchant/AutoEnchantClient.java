@@ -26,10 +26,11 @@ public class AutoEnchantClient implements ClientModInitializer {
             return;
         }
 
-        long windowHandle = client.getWindow().getHandle();
+        net.minecraft.client.util.Window window = client.getWindow();
+        long windowHandle = window.getHandle();
 
-        boolean shiftDown = InputUtil.isKeyPressed(windowHandle, GLFW.GLFW_KEY_LEFT_SHIFT)
-                || InputUtil.isKeyPressed(windowHandle, GLFW.GLFW_KEY_RIGHT_SHIFT);
+        boolean shiftDown = InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_SHIFT)
+                || InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_RIGHT_SHIFT);
         boolean rightMouseDown = GLFW.glfwGetMouseButton(windowHandle, GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS;
 
         boolean justPressed = rightMouseDown && !this.prevRightMouseDown;
